@@ -1,43 +1,37 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// slice  acts as middleWare combine initial state and reducer function it doesn't have logic
+// it provides path from store to reducer funciton which has orignal logic
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  addProductReducer,
+  removeProductReducer,
+  updateProductReducer,
+} from "./productReducer";
 
 export interface Product {
-  id: string;
+  id: number;
   name: string;
   price: number;
-  description: string;
+  quantity: number;
 }
 
-interface ProductsState {
+export interface ProductState {
   items: Product[];
 }
 
-const initialState: ProductsState = {
+const initialState: ProductState = {
   items: [],
 };
 
-console.log("Initial State on Redux setup:", initialState);
-
-const productsSlice = createSlice({
+const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    addProduct: (state, action: PayloadAction<Product>) => {
-      state.items.push(action.payload);
-    },
-    updateProduct: (state, action: PayloadAction<Product>) => {
-      const index = state.items.findIndex(
-        (item) => item.id === action.payload.id
-      );
-      if (index !== -1) {
-        state.items[index] = action.payload;
-      }
-    },
-    deleteProduct: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter((item) => item.id !== action.payload);
-    },
+    addProduct: addProductReducer,
+    removeProduct: removeProductReducer,
+    updateProduct: updateProductReducer,
   },
 });
 
-export const { addProduct, updateProduct, deleteProduct } =
-  productsSlice.actions;
-export default productsSlice.reducer;
+export const { addProduct, removeProduct, updateProduct } =
+  productSlice.actions;
+export default productSlice.reducer;
