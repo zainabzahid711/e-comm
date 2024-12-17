@@ -39,19 +39,17 @@ const Header = () => {
   }, [dispatch]);
 
   return (
-    <div className="bg-[#D8DBE2] text-center p-2">
-      <h4 className="text-lg text-black relative">
-        <span className="text-lg font-semibold mr-3 cursor-pointer">
-          {/* animate-blink  */}
-          New Arrivals
-        </span>
-        <span className="mr-3">
-          Up to 30% off on all products - Limited Time Only!
-        </span>
-        <span className="text-red-600 font-bold absolute">
-          Hurry up! Only {timeLeft} left!
-        </span>
+    <div className="bg-[#D8DBE2] text-center p-4 md:p-2 md:flex-row md:flex justify-center items-center flex-col">
+      <h4 className="text-lg text-black relative font-semibold mr-3 cursor-pointer">
+        {/* animate-blink  */}
+        New Arrivals
       </h4>
+
+      <p className="mr-3 text-black">
+        Up to 30% off on all products - Limited Time Only!
+      </p>
+
+      <p className="text-red-600 font-bold ">Hurry up! Only {timeLeft} left!</p>
     </div>
   );
 };

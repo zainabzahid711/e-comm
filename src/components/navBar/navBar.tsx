@@ -1,6 +1,20 @@
-import React, { useState } from "react";
-import { Menu, MenuItem, Button, Typography, Box } from "@mui/material";
+import React, { useState, Suspense, lazy } from "react";
+import {
+  MenuItem,
+  Box,
+  IconButton,
+  List,
+  ListItem,
+  Divider,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+const MenuComponent = lazy(() => import("@mui/material/Menu"));
+const DrawerComponent = lazy(() => import("@mui/material/Drawer"));
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 type DropdownContent = {
   [key: string]: { title: string; description: string }[];
@@ -68,10 +82,7 @@ const dropdownContent: DropdownContent = {
       title: "Silicone/Rubber Watches",
       description: "Comfortable and sporty.",
     },
-    {
-      title: "Ceramic Watches",
-      description: "Scratch-resistant and modern.",
-    },
+    { title: "Ceramic Watches", description: "Scratch-resistant and modern." },
     {
       title: "Wooden Watches",
       description: "Eco-friendly and unique designs.",
@@ -84,17 +95,11 @@ const dropdownContent: DropdownContent = {
       description: "Elegant and often embellished with decorative elements.",
     },
     { title: "Unisex Watches", description: "Gender-neutral designs." },
-    {
-      title: "Kids' Watches",
-      description: "Colorful, fun, and often themed.",
-    },
+    { title: "Kids' Watches", description: "Colorful, fun, and often themed." },
   ],
   "By Price Range": [
     { title: "Affordable Watches", description: "Budget-friendly options." },
-    {
-      title: "Mid-Range Watches",
-      description: "Balancing quality and cost.",
-    },
+    { title: "Mid-Range Watches", description: "Balancing quality and cost." },
     { title: "Premium Watches", description: "Luxury yet accessible." },
     {
       title: "High-End Watches",
@@ -118,9 +123,36 @@ const dropdownContent: DropdownContent = {
   ],
 };
 
+const staticMenuItems = [
+  "Dress Watches",
+  "Metal Watches",
+  "Men's Watches",
+  "Solar-Powered Watches",
+  "Premium Watches",
+  "Vintage Watches",
+];
+
+// React.memo for individual static items (if needed)
+const MenuItemComponent = React.memo(
+  ({ title, description }: { title: string; description: string }) => {
+    return (
+      <MenuItem>
+        <Box>
+          <Typography variant="subtitle1" fontWeight="bold">
+            {title}
+          </Typography>
+          <Typography variant="body2">{description}</Typography>
+        </Box>
+      </MenuItem>
+    );
+  }
+);
+
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [menuKey, setMenuKey] = useState<string | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false); // State for mobile sidebar
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null); // Track expanded category for dropdown
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>, key: string) => {
     setAnchorEl(event.currentTarget);
@@ -132,30 +164,48 @@ const NavBar = () => {
     setMenuKey(null);
   };
 
+  const handleDrawerToggle = () => {
+    setDrawerOpen((prevState) => !prevState);
+  };
+
+  const handleCategoryToggle = (category: string) => {
+    setExpandedCategory((prevCategory) =>
+      prevCategory === category ? null : category
+    ); // Toggle category dropdown
+  };
+
   return (
     <>
-      <div className="flex justify-between p-7 bg-[#375880]">
+      <div className="flex justify-start md:justify-around items-center gap-4 p-7 bg-[#2f5686]">
+        {/* Mobile Hamburger Menu */}
+        <div className="md:hidden flex items-center">
+          <IconButton color="inherit" onClick={handleDrawerToggle}>
+            <MenuIcon />
+          </IconButton>
+        </div>
+
         <div className="text-center flex items-center">
           <h3 className="text-white font-bold">WATCHES</h3>
         </div>
-        <div className="flex flex-col gap-8 text-center justify-center items-center">
+
+        {/* Desktop Menu Items */}
+        <div className="flex-col gap-6 text-center justify-center items-center hidden md:flex">
           <div>
-            <ul className="flex gap-4 text-sm">
-              <li className="cursor-pointer">Dress Watches</li>
-              <li className="cursor-pointer">Metal Watches</li>
-              <li className="cursor-pointer">Men's Watches</li>
-              <li className="cursor-pointer">Solar-Powered Watches</li>
-              <li className="cursor-pointer">Premium Watches</li>
-              <li className="cursor-pointer">Vintage Watches</li>
+            <ul className="flex gap-2 md:gap-4 2xl:text-lg md:text-sm">
+              {staticMenuItems.map((item) => (
+                <li key={item} className="cursor-pointer">
+                  {item}
+                </li>
+              ))}
             </ul>
           </div>
-          {/* dropdown div */}
+          {/* Desktop Dropdown Menu */}
           <div>
             <ul className="flex gap-4 text-sm text-white">
               {Object.keys(dropdownContent).map((key) => (
                 <li
                   key={key}
-                  className="cursor-pointer hover:underline flex items-center gap-1"
+                  className="2xl:text-lg md:text-sm cursor-pointer hover:underline flex items-center gap-0"
                   onClick={(e) => handleOpen(e, key)}
                 >
                   {key} <KeyboardArrowDownIcon fontSize="small" />
@@ -164,35 +214,75 @@ const NavBar = () => {
             </ul>
           </div>
         </div>
-        <div className="items-center flex text-center">
+
+        {/* Cart, User, Search - Always visible */}
+        <div className="items-center flex text-center md:flex md:ml-0 ml-auto">
           <ul className="flex gap-6 justify-center text-white">
             <li className="cursor-pointer">Cart</li>
             <li className="cursor-pointer">User</li>
-            <li className="cursor-pointer">Search</li>
           </ul>
         </div>
       </div>
-      {/* Dropdown Menu */}
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        MenuListProps={{
-          onMouseLeave: handleClose, // Closes the menu on mouse leave
-        }}
-      >
-        {menuKey &&
-          dropdownContent[menuKey].map((item, index) => (
-            <MenuItem key={index} onClick={handleClose}>
-              <Box>
-                <Typography variant="subtitle1" fontWeight="bold">
-                  {item.title}
-                </Typography>
-                <Typography variant="body2">{item.description}</Typography>
-              </Box>
-            </MenuItem>
-          ))}
-      </Menu>
+
+      {/* Desktop Dropdown Menu */}
+      <Suspense fallback={<div> Loading... </div>}>
+        <MenuComponent
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+          MenuListProps={{
+            onMouseLeave: handleClose, // Closes the menu on mouse leave
+          }}
+        >
+          {menuKey &&
+            dropdownContent[menuKey].map((item, index) => (
+              <MenuItemComponent key={index} {...item} />
+            ))}
+        </MenuComponent>
+      </Suspense>
+
+      <Suspense fallback={<div> Loading... </div>}>
+        <DrawerComponent
+          anchor="left"
+          open={drawerOpen}
+          onClose={handleDrawerToggle}
+          sx={{
+            "& .MuiDrawer-paper": {
+              backgroundColor: "#2f5686", // Same as NavBar background color
+              color: "white", // Text color for the drawer
+            },
+          }}
+        >
+          <Box sx={{ width: 250 }} role="presentation">
+            <IconButton onClick={handleDrawerToggle}>
+              <CloseIcon />
+            </IconButton>
+            <List>
+              {Object.keys(dropdownContent).map((category) => (
+                <div key={category}>
+                  <ListItem onClick={() => handleCategoryToggle(category)}>
+                    <ListItemText primary={category} />
+                    <KeyboardArrowDownIcon />
+                  </ListItem>
+                  {expandedCategory === category && (
+                    <List component="div" disablePadding>
+                      {dropdownContent[category].map((item, index) => (
+                        <ListItem
+                          onClick={() => handleCategoryToggle(category)}
+                          key={index}
+                        >
+                          <ListItemText primary={item.title} />
+                        </ListItem>
+                      ))}
+                    </List>
+                  )}
+                  <Divider />
+                </div>
+              ))}
+            </List>
+          </Box>
+        </DrawerComponent>
+      </Suspense>
     </>
   );
 };
