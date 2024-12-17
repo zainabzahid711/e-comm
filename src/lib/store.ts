@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import productReducer from "./features/products/productSlice";
 import timerReducer from "../lib/features/timer/timerSlice";
+import navReducer from "../lib/features/nav/navSlice";
 
 // Create the store
 export const store = configureStore({
   reducer: {
     products: productReducer, // Register the product slice
     timer: timerReducer,
+    nav: navReducer,
   },
 });
 
