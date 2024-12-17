@@ -22,7 +22,7 @@ const staticMenuItems = [
 const MenuItemComponent = React.memo(
   ({ title, description }: { title: string; description: string }) => {
     return (
-      <MenuItem>
+      <MenuItem className="w-full bg-[#D8DBE2] hover:bg-[#5c8dc9]">
         <Box>
           <Typography variant="subtitle1" fontWeight="bold">
             {title}
@@ -34,16 +34,25 @@ const MenuItemComponent = React.memo(
   }
 );
 
+// Add displayName for better debugging
+MenuItemComponent.displayName = "MenuItemComponent";
+
 const NavBar = () => {
   const dispatch = useDispatch();
   const { menuKey } = useSelector((state: RootState) => state.nav);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleDrawerToggle = () => {
     dispatch(toggleDrawer());
   };
 
-  const handleOpenMenu = (key: string) => {
+  const handleOpenMenu = (
+    key: string,
+    event: React.MouseEvent<HTMLElement>
+  ) => {
     dispatch(setMenuKey(key));
+    setAnchorEl(event.currentTarget);
   };
 
   return (
@@ -77,8 +86,8 @@ const NavBar = () => {
               {Object.keys(dropdownContent).map((key) => (
                 <li
                   key={key}
-                  className="2xl:text-lg md:text-sm cursor-pointer hover:underline flex items-center gap-0"
-                  onClick={(e) => handleOpenMenu(key)}
+                  className="2xl:text-lg md:text-sm cursor-pointer hover:text-[#78b3fa] flex items-center gap-0"
+                  onClick={(e) => handleOpenMenu(key, e)}
                 >
                   {key} <KeyboardArrowDownIcon fontSize="small" />
                 </li>
@@ -90,8 +99,8 @@ const NavBar = () => {
         {/* Cart, User, Search - Always visible */}
         <div className="items-center flex text-center md:flex md:ml-0 ml-auto">
           <ul className="flex gap-6 justify-center text-white">
+            <li className="cursor-pointer">Hello Sign In</li>
             <li className="cursor-pointer">Cart</li>
-            <li className="cursor-pointer">User</li>
           </ul>
         </div>
       </div>
@@ -99,8 +108,8 @@ const NavBar = () => {
       {/* Desktop Dropdown Menu */}
       <Suspense fallback={<div> Loading... </div>}>
         <MenuComponent
-          className=""
-          anchorEl={null}
+          className="mt-6 "
+          anchorEl={anchorEl}
           open={Boolean(menuKey)}
           onClose={() => dispatch(setMenuKey(null))}
           // MenuListProps={{
@@ -119,5 +128,8 @@ const NavBar = () => {
     </>
   );
 };
+
+// Add displayName for better debugging
+NavBar.displayName = "NavBar";
 
 export default NavBar;

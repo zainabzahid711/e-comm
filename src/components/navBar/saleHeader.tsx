@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 
-import { useDispatch, UseDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setTimeLeft,
   resetTimeLeft,
 } from "@/src/lib/features/timer/timerSlice";
+import { RootState } from "../../lib/store";
 const Header = () => {
   const dispatch = useDispatch();
-  const timeLeft = useSelector((state: any) => state.timer.timeLeft);
+  const timeLeft = useSelector((state: RootState) => state.timer.timeLeft);
 
   useEffect(() => {
     // Set the target time (12 hours from now)

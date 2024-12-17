@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface TimerState {
+  timeLeft: string;
+}
+
+const initialState: TimerState = {
   timeLeft: "",
 };
 
