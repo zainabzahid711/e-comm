@@ -2,14 +2,19 @@
 
 import { Provider } from "react-redux";
 import { store } from "../lib/store";
-import ProductMng from "../components/productUI";
+// pages/_app.js
+import "./globals.css"; // Ensure this line is present
+
+// import ProductMng from "../components/productUI";
+import Header from "../components/navBar/saleHeader";
+import NavBar from "../components/navBar/navBar";
 
 export default function HomePage() {
   return (
     <div>
-      <h4>Helo redux</h4>
       <Provider store={store}>
-        <ProductMng />
+        <Header />
+        <NavBar />
       </Provider>
     </div>
   );
