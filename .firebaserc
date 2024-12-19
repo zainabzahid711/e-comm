@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "farochron-b8de9"
-  }
+    "default": "farochron-b8de9",
+    "farochron": "farochron-b8de9"
+  },
+  "targets": {},
+  "etags": {}
 }
