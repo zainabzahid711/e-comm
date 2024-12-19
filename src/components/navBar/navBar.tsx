@@ -8,6 +8,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuIcon from "@mui/icons-material/Menu";
 import MobileNavigation from "./mobileNav";
 import dropdownContent from "./dropdownContent";
+import Link from "next/link";
 
 const staticMenuItems = [
   "Dress Watches",
@@ -57,7 +58,7 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="flex justify-start md:justify-around items-center gap-4 p-7 bg-[#2f5686]">
+      <div className="flex justify-start md:justify-around items-center gap-4 p-7 bg-[#004080]">
         {/* Mobile Hamburger Menu */}
         <div className="md:hidden flex items-center">
           <IconButton color="inherit" onClick={handleDrawerToggle}>
@@ -75,7 +76,13 @@ const NavBar = () => {
             <ul className="flex gap-2 md:gap-4 2xl:text-lg md:text-sm">
               {staticMenuItems.map((item) => (
                 <li key={item} className="cursor-pointer">
-                  {item}
+                  <Link
+                    href={`/${item.toLowerCase().replace(/\s/g, "-")}`}
+                    passHref
+                    className="text-white hover:text-[#78b3fa]"
+                  >
+                    {item}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -99,7 +106,12 @@ const NavBar = () => {
         {/* Cart, User, Search - Always visible */}
         <div className="items-center flex text-center md:flex md:ml-0 ml-auto">
           <ul className="flex gap-6 justify-center text-white">
-            <li className="cursor-pointer">Hello Sign In</li>
+            <li className="cursor-pointer">
+              {" "}
+              <Link href="/signup" passHref>
+                SignUp
+              </Link>
+            </li>
             <li className="cursor-pointer">Cart</li>
           </ul>
         </div>
