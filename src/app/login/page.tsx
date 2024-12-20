@@ -1,76 +1,31 @@
-// app/login/page.tsx
 "use client";
 
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "../../firebase/config";
-import { setUser } from "../../lib/features/user/userSlice";
-import InputWrapper from "../../components/input/inputWrap";
-import Input from "../../components/input/input";
-import {
-  loginFailure,
-  loginStart,
-  loginSuccess,
-} from "@/src/lib/features/auth/authSlice";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../../lib/hooks/useAuth"; // Importing the custom hook
+import AuthForm from "../../components/auth/authForm";
+// import { useRouter } from "next/router";
 
-const auth = getAuth(app);
+const Login = () => {
+  const { email, password, loading, error, login } = useAuth(); // Using the hook
 
-const LoginPage = () => {
-  const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    dispatch(loginStart());
-
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      dispatch(
-        loginSuccess({
-          user: userCredential.user,
-          token: userCredential.user.refreshToken,
-        })
-      );
-      setEmail("");
-      setPassword("");
-    } catch (err: any) {
-      dispatch(loginFailure(err.message));
-      setError(err.message);
+  useEffect(() => {
+    if (error) {
+      // Optionally handle errors or reset them
     }
-  };
+  }, [email, password, error]);
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <InputWrapper label="Email">
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </InputWrapper>
-        <InputWrapper label="Password">
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </InputWrapper>
-        <button type="submit">Login</button>
-      </form>
-      {error && <p>{error}</p>}
-    </div>
+    <AuthForm
+      title="Login"
+      onSubmit={login}
+      loading={loading}
+      error={error}
+      fields={[
+        { label: "Email", name: "email", type: "email" },
+        { label: "Password", name: "password", type: "password" },
+      ]} // Explicitly specify fields for login
+    />
   );
 };
 
-export default LoginPage;
+export default Login;

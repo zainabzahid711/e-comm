@@ -1,18 +1,20 @@
-// redux/userSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
-  email: string | null;
-  uid: string | null;
-  password: string | null;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  name?: string;
   error: string | null;
   loading: boolean;
+  uid?: string;
 }
 
 const initialState: UserState = {
-  email: null,
-  uid: null,
-  password: null,
+  email: "",
+  password: "",
+  confirmPassword: "",
+  name: "",
   error: null,
   loading: false,
 };
@@ -32,22 +34,17 @@ const userSlice = createSlice({
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
-    clearUser: (state) => {
-      state.email = null;
-      state.uid = null;
-      state.password = null;
-      state.error = null;
-    },
     setCredentials: (
       state,
-      action: PayloadAction<{ email: string; password: string }>
+      action: PayloadAction<{ [key: string]: string }>
     ) => {
-      state.email = action.payload.email;
-      state.password = action.payload.password;
+      Object.entries(action.payload).forEach(([key, value]) => {
+        (state as any)[key] = value ?? "";
+      });
     },
   },
 });
 
-export const { setUser, clearUser, setLoading, setError, setCredentials } =
+export const { setUser, setLoading, setError, setCredentials } =
   userSlice.actions;
 export default userSlice.reducer;

@@ -107,7 +107,6 @@ const NavBar = () => {
         <div className="items-center flex text-center md:flex md:ml-0 ml-auto">
           <ul className="flex gap-6 justify-center text-white">
             <li className="cursor-pointer">
-              {" "}
               <Link href="/signup" passHref>
                 SignUp
               </Link>
