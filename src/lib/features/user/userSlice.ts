@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { produce, Draft } from "immer"; // Ensure proper import of 'produce'
 
 interface UserState {
   email: string;
@@ -36,10 +37,20 @@ const userSlice = createSlice({
     },
     setCredentials: (
       state,
-      action: PayloadAction<{ [key: string]: string }>
+      action: PayloadAction<Partial<Record<keyof UserState, string>>>
     ) => {
-      Object.entries(action.payload).forEach(([key, value]) => {
-        (state as any)[key] = value ?? "";
+      const payload = action.payload;
+
+      return produce(state, (draft: Draft<UserState>) => {
+        for (const key in payload) {
+          if (Object.prototype.hasOwnProperty.call(payload, key)) {
+            const stateKey = key as keyof UserState;
+            const value = payload[stateKey];
+
+            // Ensure type compatibility
+            (draft[stateKey] as typeof value) = value;
+          }
+        }
       });
     },
   },

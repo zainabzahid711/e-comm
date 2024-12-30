@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "../../lib/hooks/useAuth"; // Importing the custom hook
 import AuthForm from "../../components/auth/authForm";
 // import { useRouter } from "next/router";

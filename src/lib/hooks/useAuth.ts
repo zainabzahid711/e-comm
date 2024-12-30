@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAuth,
@@ -16,25 +16,22 @@ const auth = getAuth(app);
 export const useAuth = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
-  // const [isClient, setIsClient] = useState(false); // Track if running in the browser
   const router = useRouter(); // Use the useRouter hook for navigation
 
-  // useEffect(() => {
-  //   setIsClient(true); // Update when the component is mounted
-  // }, []);
-
-  // const router = isClient ? useRouter() : null; // Safely access useRouter
-
   const handleAuth = async (
-    authAction: () => Promise<any>, // Generic action (login/signup)
+    authAction: () => Promise<void>, // Generic action (login/signup)
     successRedirect: string
   ) => {
     try {
       dispatch(setLoading(true));
       await authAction(); // Perform the authentication action
       router.push(successRedirect); // Redirect to the desired page
-    } catch (err: any) {
-      dispatch(setError(err.message));
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        dispatch(setError(err.message));
+      } else {
+        dispatch(setError("An unknown error occurred"));
+      }
     } finally {
       dispatch(setLoading(false));
     }
@@ -59,8 +56,12 @@ export const useAuth = () => {
         );
         dispatch(setLoading(false));
         // if (router) router.push("/home");
-      } catch (err: any) {
-        dispatch(setError(err.message));
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          dispatch(setError(err.message));
+        } else {
+          dispatch(setError("An unknown error occurred"));
+        }
       } finally {
         dispatch(setLoading(false));
       }
@@ -98,8 +99,12 @@ export const useAuth = () => {
         }
         dispatch(setLoading(false));
         // if (router) router.push("/home");
-      } catch (err: any) {
-        dispatch(setError(err.message));
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          dispatch(setError(err.message));
+        } else {
+          dispatch(setError("An unknown error occurred"));
+        }
       } finally {
         dispatch(setLoading(false));
       }
