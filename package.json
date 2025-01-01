@@ -2,11 +2,13 @@
   "name": "e-comm",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "ts-node --project tsconfig.json src/seed-products.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -14,6 +16,7 @@
     "@mui/icons-material": "^6.2.0",
     "@mui/material": "^6.2.0",
     "@reduxjs/toolkit": "^2.3.0",
+    "dotenv": "^16.4.7",
     "firebase": "^11.1.0",
     "firebase-admin": "^13.0.1",
     "firebase-functions": "^6.1.2",
@@ -26,7 +29,7 @@
   },
   "devDependencies": {
     "@types/firebase": "^2.4.32",
-    "@types/node": "^20",
+    "@types/node": "^20.17.11",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
@@ -34,6 +37,7 @@
     "eslint-config-next": "15.0.3",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.16",
+    "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   }
 }
