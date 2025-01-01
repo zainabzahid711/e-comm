@@ -1,5 +1,5 @@
 "use client";
-import NavBar from "@/src/components/navBar/navBar";
+import NavBar from "../../components/navBar/navBar";
 
 const Home = () => {
   return (

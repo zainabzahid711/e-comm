@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { MenuItem, Box, IconButton, Typography } from "@mui/material";
 import { RootState } from "../../lib/store";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleDrawer, setMenuKey } from "@/src/lib/features/nav/navSlice";
+import { toggleDrawer, setMenuKey } from "../../lib/features/nav/navSlice";
 const MenuComponent = lazy(() => import("@mui/material/Menu"));
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuIcon from "@mui/icons-material/Menu";

@@ -1,54 +1,78 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "../lib/store";
-import {
-  addProduct,
-  removeProduct,
-  updateProduct,
-} from "../lib/features/products/productSlice";
+import { useState } from "react";
+import { addProduct } from "../firebase/firestore";
 
-const ProductMng = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const products = useSelector((state: RootState) => state.products.items);
+const AddProductPage = () => {
+  // State to store product data
+  const [product, setProduct] = useState({
+    name: "",
+    brandName: "",
+    isAvailable: true,
+    price: "",
+  });
 
-  const handleAddProduct = () => {
-    dispatch(addProduct({ id: 1, name: "Sample Product", price: 99.99 }));
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent page reload
+    try {
+      const formattedProduct = {
+        ...product,
+        price: parseInt(product.price), // Convert price to a number
+      };
+      await addProduct(formattedProduct);
+      alert("Product added successfully!");
+    } catch (error) {
+      console.error("Error adding product:", error);
+      alert("Failed to add product. See console for details.");
+    }
   };
 
-  const handleRemoveProduct = (id: number) => {
-    dispatch(removeProduct(id));
-  };
-
-  const handleUpdateProduct = () => {
-    dispatch(
-      updateProduct({
-        id: 1,
-        name: "Updated Product",
-        price: 79.99,
-        quantity: 2,
-      })
-    );
+  // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setProduct((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
     <div>
-      <h1>Product Management (Cart)</h1>
-      <button onClick={handleAddProduct}>Add Sample Product</button>
-      <button onClick={handleUpdateProduct}>Update Sample Product</button>
-      <ul>
-        {products.map((product) => (
-          <li key={product.id}>
-            {product.name} - ${product.price} * {product.quantity}
-            <div>
-              <button onClick={() => handleAddProduct()}>+1</button>
-              <button onClick={() => handleRemoveProduct(product.id)}>
-                -1
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <h1>Add a New Product</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Product Name:
+          <input
+            type="text"
+            name="name"
+            value={product.name}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          Brand Name:
+          <input
+            type="text"
+            name="brandName"
+            value={product.brandName}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          Price:
+          <input
+            type="number"
+            name="price"
+            value={product.price}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <br />
+        <button type="submit">Add Product</button>
+      </form>
     </div>
   );
 };
 
-export default ProductMng;
+export default AddProductPage;

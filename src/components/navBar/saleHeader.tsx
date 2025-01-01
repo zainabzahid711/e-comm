@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setTimeLeft,
   resetTimeLeft,
-} from "@/src/lib/features/timer/timerSlice";
+} from "../../lib/features/timer/timerSlice";
 import { RootState } from "../../lib/store";
 const Header = () => {
   const dispatch = useDispatch();

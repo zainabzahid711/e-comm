@@ -8,6 +8,7 @@ import "./globals.css"; // Ensure this line is present
 // import ProductMng from "../components/productUI";
 import Header from "../components/navBar/saleHeader";
 import Home from "./home/page";
+import AddProductPage from "../components/productUI";
 
 export default function HomePage() {
   return (
@@ -15,6 +16,7 @@ export default function HomePage() {
       <Provider store={store}>
         <Header />
         <Home />
+        <AddProductPage />
       </Provider>
     </div>
   );
