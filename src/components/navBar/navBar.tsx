@@ -1,29 +1,28 @@
-import React, { Suspense, lazy } from "react";
-import { MenuItem, Box, IconButton, Typography } from "@mui/material";
+import React, { useState, Suspense, lazy, useCallback } from "react";
+import {
+  MenuItem,
+  Box,
+  IconButton,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import { RootState } from "../../lib/store";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleDrawer, setMenuKey } from "../../lib/features/nav/navSlice";
 const MenuComponent = lazy(() => import("@mui/material/Menu"));
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuIcon from "@mui/icons-material/Menu";
 import MobileNavigation from "./mobileNav";
 import dropdownContent from "./dropdownContent";
 import Link from "next/link";
 
-const staticMenuItems = [
-  "Dress Watches",
-  "Metal Watches",
-  "Men's Watches",
-  "Solar-Powered Watches",
-  "Premium Watches",
-  "Vintage Watches",
-];
-
 // React.memo for individual static items (if needed)
 const MenuItemComponent = React.memo(
   ({ title, description }: { title: string; description: string }) => {
     return (
-      <MenuItem className="w-full bg-[#D8DBE2] hover:bg-[#5c8dc9]">
+      <MenuItem
+        className="w-full bg-[#D8DBE2] hover:bg-[#5c8dc9]"
+        role="menuitem"
+      >
         <Box>
           <Typography variant="subtitle1" fontWeight="bold">
             {title}
@@ -43,17 +42,31 @@ const NavBar = () => {
   const { menuKey } = useSelector((state: RootState) => state.nav);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
 
-  const handleDrawerToggle = () => {
+  const handleDrawerToggle = useCallback(() => {
     dispatch(toggleDrawer());
-  };
+  }, [dispatch]);
 
-  const handleOpenMenu = (
-    key: string,
-    event: React.MouseEvent<HTMLElement>
-  ) => {
-    dispatch(setMenuKey(key));
-    setAnchorEl(event.currentTarget);
+  const handleOpenMenu = useCallback(
+    (key: string, event: React.MouseEvent<HTMLElement>) => {
+      dispatch(setMenuKey(key));
+      setAnchorEl(event.currentTarget);
+      setHovered(key);
+    },
+    [dispatch]
+  );
+
+  const handleCloseMenu = () => {
+    const timeout = setTimeout(() => {
+      if (!hovered) {
+        setHovered(null);
+        dispatch(setMenuKey(null));
+        setAnchorEl(null);
+      }
+    }, 150);
+
+    return () => clearTimeout(timeout);
   };
 
   return (
@@ -67,36 +80,31 @@ const NavBar = () => {
         </div>
 
         <div className="text-center flex items-center">
-          <h3 className="text-white font-bold">WATCHES</h3>
+          <h3 className="text-white font-bold">Aurelia Valor</h3>
         </div>
 
         {/* Desktop Menu Items */}
         <div className="flex-col gap-6 text-center justify-center items-center hidden md:flex">
-          <div>
-            <ul className="flex gap-2 md:gap-4 2xl:text-lg md:text-sm">
-              {staticMenuItems.map((item) => (
-                <li key={item} className="cursor-pointer">
-                  <Link
-                    href={`/${item.toLowerCase().replace(/\s/g, "-")}`}
-                    passHref
-                    className="text-white hover:text-[#78b3fa]"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
           {/* Desktop Dropdown Menu */}
           <div>
-            <ul className="flex gap-4 text-sm text-white">
+            <ul className="flex w-full gap-4 text-sm text-white">
               {Object.keys(dropdownContent).map((key) => (
                 <li
                   key={key}
                   className="2xl:text-lg md:text-sm cursor-pointer hover:text-[#78b3fa] flex items-center gap-0"
                   onClick={(e) => handleOpenMenu(key, e)}
+                  onMouseOver={(e) => {
+                    handleOpenMenu(key, e);
+                    // setHovered(true);
+                  }}
+                  onMouseLeave={() => {
+                    // setHovered(false);
+                    handleCloseMenu();
+                  }}
+                  role="menuitem"
+                  aria-haspopup="true"
                 >
-                  {key} <KeyboardArrowDownIcon fontSize="small" />
+                  {key}
                 </li>
               ))}
             </ul>
@@ -117,18 +125,28 @@ const NavBar = () => {
       </div>
 
       {/* Desktop Dropdown Menu */}
-      <Suspense fallback={<div> Loading... </div>}>
+      <Suspense fallback={<CircularProgress color="inherit" />}>
         <MenuComponent
-          className="mt-6 "
+          className="mt-6"
           anchorEl={anchorEl}
           open={Boolean(menuKey)}
-          onClose={() => dispatch(setMenuKey(null))}
-          // MenuListProps={{
-          //   onClose={()=> dispatch(setMenuKey(null))}, // Closes the menu on mouse leave
-          // }}
+          onClose={() => {
+            setAnchorEl(null);
+            dispatch(setMenuKey(null));
+            setHovered(null);
+          }}
+          MenuListProps={{
+            onMouseLeave: () => {
+              setTimeout(() => {
+                setHovered(null);
+                dispatch(setMenuKey(null));
+                setAnchorEl(null);
+              }, 150); // Debounce
+            },
+          }}
         >
           {menuKey &&
-            dropdownContent[menuKey].map((item, index) => (
+            dropdownContent[menuKey]?.map((item, index) => (
               <MenuItemComponent key={index} {...item} />
             ))}
         </MenuComponent>

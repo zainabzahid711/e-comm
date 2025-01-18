@@ -2,106 +2,97 @@ export type DropdownCategory = {
   title: string;
   description: string;
 };
-
 const dropdownContent: Record<string, DropdownCategory[]> = {
-  "By Style": [
+  "Home Accessories": [
     {
-      title: "Casual Watches",
-      description: "Everyday designs suitable for daily wear.",
-    },
-    {
-      title: "Dress Watches",
-      description: "Sleek and elegant, ideal for formal occasions.",
-    },
-    {
-      title: "Sports Watches",
+      title: "Cleaning Brush for Home",
       description:
-        "Rugged, durable, and often equipped with features like water resistance and stopwatch.",
+        "A stylish and functional tool, perfect for maintaining a clean and sophisticated living space.",
     },
     {
-      title: "Luxury Watches",
+      title: "Stainless Steel Squeegee",
       description:
-        "High-end, premium-quality timepieces featuring sophisticated designs and materials.",
+        "Durable and practical, built to withstand tough conditions and resist rust.",
     },
+  ],
+  "Home Decor": [
     {
-      title: "Smart Watches",
+      title: "Lamps",
       description:
-        "Technology-driven watches with features like fitness tracking, notifications, and apps.",
-    },
-  ],
-  "By Functionality": [
-    {
-      title: "Chronograph Watches",
-      description: "Watches with stopwatch functions.",
+        "Beautifully designed lighting to enhance any room with elegance and warmth.",
     },
     {
-      title: "Diver's Watches",
+      title: "Flowery Plants",
       description:
-        "Water-resistant watches with features designed for underwater use.",
+        "Vibrant plants that bring life and color to your home decor.",
     },
     {
-      title: "Pilot Watches",
-      description: "Inspired by aviation, often with large, legible dials.",
+      title: "Photo frames",
+      description:
+        "Stylish frames that add a personal touch to your living space.",
     },
     {
-      title: "Solar-Powered Watches",
-      description: "Environmentally friendly watches powered by sunlight.",
-    },
-    {
-      title: "Skeleton Watches",
-      description: "Featuring visible inner mechanics for an artistic flair.",
+      title: "Vases",
+      description:
+        "Eco-conscious designs to hold your favorite flowers or greenery.",
     },
   ],
-  "By Material": [
+  Electronics: [
     {
-      title: "Metal Watches",
-      description: "Stainless steel, titanium, or precious metals like gold.",
+      title: "Wireless earbuds",
+      description: "High-quality sound and comfort, perfect for all-day wear.",
     },
     {
-      title: "Leather Strap Watches",
-      description: "Sophisticated and timeless.",
+      title: "digital watches",
+      description: "Modern timepieces with sleek designs for any occasion.",
     },
     {
-      title: "Silicone/Rubber Watches",
-      description: "Comfortable and sporty.",
+      title: "airpods",
+      description:
+        "Premium earphones that offer ultimate comfort and superior sound quality.",
     },
-    { title: "Ceramic Watches", description: "Scratch-resistant and modern." },
     {
-      title: "Wooden Watches",
-      description: "Eco-friendly and unique designs.",
-    },
-  ],
-  "By Audience": [
-    { title: "Men's Watches", description: "Robust and masculine designs." },
-    {
-      title: "Women's Watches",
-      description: "Elegant and often embellished with decorative elements.",
-    },
-    { title: "Unisex Watches", description: "Gender-neutral designs." },
-    { title: "Kids' Watches", description: "Colorful, fun, and often themed." },
-  ],
-  "By Price Range": [
-    { title: "Affordable Watches", description: "Budget-friendly options." },
-    { title: "Mid-Range Watches", description: "Balancing quality and cost." },
-    { title: "Premium Watches", description: "Luxury yet accessible." },
-    {
-      title: "High-End Watches",
-      description: "Exclusively premium brands and designs.",
+      title: "Tablets",
+      description:
+        "Innovative, eco-friendly devices with advanced functionality for everyday use.",
     },
   ],
-  "By Design Theme": [
+  Discover: [
     {
-      title: "Minimalist Watches",
-      description: "Clean, simple, and understated.",
+      title: "Affordable Accessories",
+      description:
+        "Budget-friendly accessories that don’t compromise on style.",
     },
     {
-      title: "Vintage/Retro Watches",
-      description: "Classic designs reminiscent of past eras.",
+      title: "Men",
+      description:
+        "Fashion-forward and functional items designed for the modern man.",
     },
-    { title: "Modern Watches", description: "Sleek and contemporary." },
     {
-      title: "Themed Watches",
-      description: "Movie-inspired, character-branded, or artistic designs.",
+      title: "Women",
+      description:
+        "Elegant and practical options that cater to every woman’s lifestyle.",
+    },
+  ],
+  Clothing: [
+    {
+      title: "Men",
+      description:
+        "Timeless and versatile clothing that complements a wide range of styles.",
+    },
+    {
+      title: "Women",
+      description:
+        "Chic designs that blend modern fashion with classic influences.",
+    },
+    {
+      title: "Shoes",
+      description: "Trendy footwear that balances style with comfort.",
+    },
+    {
+      title: "Scavers", //scarfs/mufflers
+      description:
+        "Cozy scarves and mufflers with designs inspired by popular culture and unique art.",
     },
   ],
 };
