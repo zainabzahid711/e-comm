@@ -16,6 +16,8 @@
     "@mui/icons-material": "^6.2.0",
     "@mui/material": "^6.2.0",
     "@reduxjs/toolkit": "^2.3.0",
+    "axios": "^1.7.9",
+    "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "firebase": "^11.1.0",
     "firebase-admin": "^13.0.1",
