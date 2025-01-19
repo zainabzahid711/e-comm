@@ -1,4 +1,4 @@
-import React, { useState, Suspense, lazy, useCallback } from "react";
+import React, { useState, Suspense, lazy, useCallback, useEffect } from "react";
 import {
   MenuItem,
   Box,
@@ -41,17 +41,18 @@ MenuItemComponent.displayName = "MenuItemComponent";
 const NavBar = () => {
   const dispatch = useDispatch();
   const { menuKey } = useSelector((state: RootState) => state.nav);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
 
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   );
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [hovered, setHovered] = useState<string | null>(null);
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const handleDrawerToggle = useCallback(() => {
     dispatch(toggleDrawer());
@@ -76,6 +77,14 @@ const NavBar = () => {
     }, 150);
 
     return () => clearTimeout(timeout);
+  };
+
+  if (!isHydrated) {
+    return null;
+  }
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -130,7 +139,9 @@ const NavBar = () => {
             {isAuthenticated ? (
               <>
                 <li className="cursor-pointer">
-                  Welcome, {user?.name || "User"}
+                  {isHydrated
+                    ? `Welcome, ${user?.name || "User"}`
+                    : "Loading..."}
                 </li>
                 <li className="cursor-pointer" onClick={handleLogout}>
                   Logout
