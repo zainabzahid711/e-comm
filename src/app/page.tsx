@@ -1,20 +1,21 @@
 "use client";
 
 import { Provider } from "react-redux";
-import { store } from "../lib/store";
-// pages/_app.js
-import "./globals.css"; // Ensure this line is present
+import { persistor, store } from "../lib/store";
+import "./globals.css";
 
-// import ProductMng from "../components/productUI";
 import Header from "../components/navBar/saleHeader";
 import Home from "./home/page";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function HomePage() {
   return (
     <div>
       <Provider store={store}>
-        <Header />
-        <Home />
+        <PersistGate loading={null} persistor={persistor}>
+          <Header />
+          <Home />
+        </PersistGate>
       </Provider>
     </div>
   );
