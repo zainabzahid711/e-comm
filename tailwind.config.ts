@@ -12,6 +12,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        stylish: ['"Playfair Display"', "serif"],
+      },
       colors: {
         background: "#2C3E50",
         foreground: "#333333",
