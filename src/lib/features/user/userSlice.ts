@@ -5,7 +5,7 @@ interface UserState {
   email: string;
   password: string;
   confirmPassword?: string;
-  name?: string;
+  name: string | null;
   error: string | null;
   loading: boolean;
   uid?: string;
@@ -15,7 +15,7 @@ const initialState: UserState = {
   email: "",
   password: "",
   confirmPassword: "",
-  name: "",
+  name: null,
   error: null,
   loading: false,
 };
@@ -24,9 +24,13 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<{ email: string; uid: string }>) => {
+    setUser: (
+      state,
+      action: PayloadAction<{ email: string; uid: string; name?: string }>
+    ) => {
       state.email = action.payload.email;
       state.uid = action.payload.uid;
+      state.name = action.payload.name || "User";
       state.error = null;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {

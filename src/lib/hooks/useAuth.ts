@@ -6,7 +6,8 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { setUser, setError, setLoading } from "../features/user/userSlice";
+import { loginSuccess } from "../features/auth/authSlice";
+import { setError, setLoading } from "../features/user/userSlice";
 import { RootState } from "../store";
 import { app } from "../../firebase/config";
 import { useRouter } from "next/navigation"; // Import useRouter from next/router
@@ -16,7 +17,7 @@ const auth = getAuth(app);
 export const useAuth = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
-  const router = useRouter(); // Use the useRouter hook for navigation
+  const router = useRouter();
 
   const handleAuth = async (
     authAction: () => Promise<void>, // Generic action (login/signup)
@@ -25,7 +26,9 @@ export const useAuth = () => {
     try {
       dispatch(setLoading(true));
       await authAction(); // Perform the authentication action
-      router.push(successRedirect); // Redirect to the desired page
+      setTimeout(() => {
+        router.push(successRedirect);
+      }, 100);
     } catch (err: unknown) {
       if (err instanceof Error) {
         dispatch(setError(err.message));
@@ -48,10 +51,13 @@ export const useAuth = () => {
           email,
           password
         );
+        const { displayName, email: userEmail, uid } = userCredential.user;
+        const token = await userCredential.user.getIdToken(); // Retrieve the token
+
         dispatch(
-          setUser({
-            email: userCredential.user.email!,
-            uid: userCredential.user.uid,
+          loginSuccess({
+            user: { email: userEmail!, name: displayName || "User" },
+            token, // Ensure correct token field
           })
         );
         dispatch(setLoading(false));
@@ -87,10 +93,13 @@ export const useAuth = () => {
         if (name) {
           await updateProfile(userCredential.user, { displayName: name });
         }
+        const { email: userEmail, uid } = userCredential.user;
+        const token = await userCredential.user.getIdToken(); // Retrieve the token
+
         dispatch(
-          setUser({
-            email: userCredential.user.email!,
-            uid: userCredential.user.uid,
+          loginSuccess({
+            user: { email: userEmail!, name: name || "User" },
+            token, // Ensure correct token field
           })
         );
         // Update profile with additional fields like name
