@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setError, setCredentials } from "../../lib/features/user/userSlice";
+import {
+  setError,
+  setCredentials,
+  resetCredentials,
+} from "../../lib/features/user/userSlice";
 import { RootState } from "../../lib/store";
 import AuthInput from "../input/input";
 
@@ -21,6 +25,13 @@ const AuthForm: React.FC<AuthFormProps> = ({
 }) => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    // Reset the form state when the component unmounts or when the page changes
+    return () => {
+      dispatch(resetCredentials()); // Reset user credentials
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     if (error) {
