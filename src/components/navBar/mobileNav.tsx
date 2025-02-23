@@ -1,25 +1,17 @@
 import React, { Suspense, lazy } from "react";
-import {
-  Box,
-  IconButton,
-  List,
-  ListItem,
-  Divider,
-  ListItemText,
-} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../lib/store";
 import {
   toggleDrawer,
   setExpandedCategory,
 } from "../../lib/features/nav/navSlice";
-import { RootState } from "../../lib/store";
-const DrawerComponent = lazy(() => import("@mui/material/Drawer"));
 import dropdownContent from "./dropdownContent";
-
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CloseIcon from "@mui/icons-material/Close";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-const MobileNavigation = () => {
+const DrawerComponent = lazy(() => import("@mui/material/Drawer"));
+
+const MobileNav = () => {
   const dispatch = useDispatch();
   const { drawerOpen, expandedCategory } = useSelector(
     (state: RootState) => state.nav
@@ -34,53 +26,50 @@ const MobileNavigation = () => {
       setExpandedCategory(expandedCategory === category ? null : category)
     );
   };
+
   return (
-    <>
-      {/* Mobile Drawer */}
-      <Suspense fallback={<div> Loading... </div>}>
-        <DrawerComponent
-          anchor="left"
-          open={drawerOpen}
-          onClose={handleDrawerToggle}
-          sx={{
-            "& .MuiDrawer-paper": {
-              backgroundColor: "#2f5686", // Same as NavBar background color
-              color: "white", // Text color for the drawer
-            },
-          }}
-        >
-          <Box sx={{ width: 250 }} role="presentation">
-            <IconButton onClick={handleDrawerToggle}>
-              <CloseIcon />
-            </IconButton>
-            <List>
-              {Object.keys(dropdownContent).map((category) => (
-                <div key={category}>
-                  <ListItem onClick={() => handleCategoryToggle(category)}>
-                    <ListItemText primary={category} />
-                    <KeyboardArrowDownIcon />
-                  </ListItem>
-                  {expandedCategory === category && (
-                    <List component="div" disablePadding>
-                      {dropdownContent[category].map((item, index) => (
-                        <ListItem
-                          onClick={() => handleCategoryToggle(category)}
-                          key={index}
-                        >
-                          <ListItemText primary={item.title} />
-                        </ListItem>
-                      ))}
-                    </List>
-                  )}
-                  <Divider />
-                </div>
-              ))}
-            </List>
-          </Box>
-        </DrawerComponent>
-      </Suspense>
-    </>
+    <Suspense fallback={<div>Loading...</div>}>
+      <DrawerComponent
+        anchor="left"
+        open={drawerOpen}
+        onClose={handleDrawerToggle}
+        sx={{
+          "& .MuiDrawer-paper": {
+            backgroundColor: "#2f5686",
+            color: "white",
+          },
+        }}
+      >
+        <div className="w-64">
+          <button onClick={handleDrawerToggle} className="p-4">
+            <CloseIcon />
+          </button>
+          <div>
+            {Object.keys(dropdownContent).map((category) => (
+              <div key={category}>
+                <button
+                  onClick={() => handleCategoryToggle(category)}
+                  className="w-full p-4 text-left flex justify-between items-center"
+                >
+                  <span>{category}</span>
+                  <KeyboardArrowDownIcon />
+                </button>
+                {expandedCategory === category && (
+                  <div className="pl-8">
+                    {dropdownContent[category].map((item, index) => (
+                      <div key={index} className="p-2">
+                        {item.title}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </DrawerComponent>
+    </Suspense>
   );
 };
 
-export default MobileNavigation;
+export default MobileNav;
