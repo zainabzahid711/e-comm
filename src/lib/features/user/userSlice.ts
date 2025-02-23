@@ -57,9 +57,19 @@ const userSlice = createSlice({
         }
       });
     },
+    resetCredentials: (state) => {
+      state.email = "";
+      state.password = "";
+      state.error = null;
+    },
   },
 });
 
-export const { setUser, setLoading, setError, setCredentials } =
-  userSlice.actions;
+export const {
+  setUser,
+  setLoading,
+  setError,
+  setCredentials,
+  resetCredentials,
+} = userSlice.actions;
 export default userSlice.reducer;
