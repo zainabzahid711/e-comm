@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import DropdownMenu from "./dropdownMenu";
 import dropdownContent from "./dropdownContent";
 
 const DesktopNav = () => {
   const [hoverOpen, setHoverOpen] = useState<string | null>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const navbarHeight = 95;
 
   const handleOpenMenu = (key: string) => {
     setHoverOpen(key);
@@ -33,7 +35,7 @@ const DesktopNav = () => {
             handleCloseMenu(key);
           }}
         >
-          <button className="text-white hover:text-[#78b3fa]">{key}</button>
+          <button className="hover:text-[#78b3fa]">{key}</button>
           {hoverOpen === key && (
             <div
               className="absolute top-full left-0"
@@ -43,6 +45,8 @@ const DesktopNav = () => {
               <DropdownMenu
                 items={dropdownContent[key]}
                 isOpen={hoverOpen === key}
+                // triggerRef={triggerRef}
+                navbarHeight={navbarHeight}
               />
             </div>
           )}

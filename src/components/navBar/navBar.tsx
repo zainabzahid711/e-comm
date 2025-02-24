@@ -33,17 +33,17 @@ const NavBar = () => {
   }
 
   return (
-    <nav className="bg-[#004080] p-4">
+    <nav className="bg-[#ffffff] p-4">
       <div className="container mx-auto flex justify-between items-center">
         {/* Mobile Hamburger Menu */}
         <div className="md:hidden">
-          <button onClick={handleDrawerToggle} className="text-white">
+          <button onClick={handleDrawerToggle}>
             <MenuIcon />
           </button>
         </div>
 
         {/* Logo */}
-        <div className="text-white text-3xl font-bold">
+        <div className=" text-3xl font-bold">
           <Link href="/">Aurelia Valor</Link>
         </div>
 
@@ -51,7 +51,7 @@ const NavBar = () => {
         <DesktopNav />
 
         {/* User Actions */}
-        <div className="flex items-center gap-4 text-white">
+        <div className="flex items-center gap-4">
           {isAuthenticated ? (
             <>
               <span>Welcome, {user?.name || "User"}</span>
