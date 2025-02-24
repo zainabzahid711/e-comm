@@ -10,12 +10,30 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #001f3f;
-    --foreground: #ffffff;
+    --foreground: #000000;
   }
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: #f7f7f7;
   font-family: Arial, Helvetica, sans-serif;
+}
+/* Smooth transitions for all elements */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Fade-in effect for images */
+.transition-opacity {
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Hover effects for list items */
+.hover\:text-blue-500:hover {
+  color: #3b82f6; /* Blue color */
 }
