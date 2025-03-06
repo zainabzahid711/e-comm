@@ -33,7 +33,7 @@ const NavBar = () => {
   }
 
   return (
-    <nav className="bg-[#ffffff] p-4">
+    <nav className=" p-4">
       <div className="container mx-auto flex justify-between items-center">
         {/* Mobile Hamburger Menu */}
         <div className="md:hidden">

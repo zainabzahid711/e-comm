@@ -1,21 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import DropdownMenu from "./dropdownMenu";
 import dropdownContent from "./dropdownContent";
 
 const DesktopNav = () => {
-  const [hoverOpen, setHoverOpen] = useState<string | null>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const navbarHeight = 95;
-
-  const handleOpenMenu = (key: string) => {
-    setHoverOpen(key);
-  };
-
-  const handleCloseMenu = (key: string) => {
-    setTimeout(() => {
-      setHoverOpen((prev) => (prev === key ? null : prev));
-    }, 100);
-  };
+  const [hoveredKey, setHoveredKey] = useState<string | null>(null);
 
   return (
     <div className="hidden md:flex items-center gap-6">
@@ -23,30 +11,21 @@ const DesktopNav = () => {
         <div
           key={key}
           className="relative"
-          onMouseEnter={() => handleOpenMenu(key)}
-          onMouseLeave={(e) => {
-            const relatedTarget = e.relatedTarget as Node | null;
-            if (
-              e.relatedTarget instanceof Node &&
-              e.currentTarget.contains(e.relatedTarget)
-            ) {
-              return;
-            }
-            handleCloseMenu(key);
-          }}
+          onMouseEnter={() => setHoveredKey(key)} // Open dropdown on mouse enter
+          onMouseLeave={() => setHoveredKey(null)} // Close dropdown on mouse leave
         >
           <button className="hover:text-[#78b3fa]">{key}</button>
-          {hoverOpen === key && (
+          {/* Dropdown Menu */}
+          {hoveredKey === key && (
             <div
-              className="absolute top-full left-0"
-              onMouseEnter={() => setHoverOpen(key)}
-              onMouseLeave={() => handleCloseMenu(key)}
+              className="dropdown-container"
+              onMouseEnter={() => setHoveredKey(key)} // Keep dropdown open when hovering over it
+              onMouseLeave={() => setHoveredKey(null)} // Close dropdown when mouse leaves
             >
               <DropdownMenu
                 items={dropdownContent[key]}
-                isOpen={hoverOpen === key}
-                // triggerRef={triggerRef}
-                navbarHeight={navbarHeight}
+                isOpen={hoveredKey === key}
+                navbarHeight={95}
               />
             </div>
           )}
