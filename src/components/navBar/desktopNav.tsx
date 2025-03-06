@@ -10,7 +10,7 @@ const DesktopNav = () => {
       {Object.keys(dropdownContent).map((key) => (
         <div
           key={key}
-          className="relative"
+          className="relative group" // Add a group class for better event handling
           onMouseEnter={() => setHoveredKey(key)} // Open dropdown on mouse enter
           onMouseLeave={() => setHoveredKey(null)} // Close dropdown on mouse leave
         >
