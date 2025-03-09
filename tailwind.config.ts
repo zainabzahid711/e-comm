@@ -7,6 +7,7 @@ export default {
     // "./components/**/*.{js,ts,jsx,tsx,mdx}",
     // "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -25,6 +26,10 @@ export default {
         beige: "#D7D3BF", // Warm neutral
         sand: "#C1BAA1", // Medium earthy tone
         olive: "#A59D84",
+      },
+      backgroundImage: {
+        "dark-gray-gradient":
+          "linear-gradient(45deg, #171717 0%, #282828 100%)",
       },
       animation: {
         blink: "blink 1s step-end infinite",
