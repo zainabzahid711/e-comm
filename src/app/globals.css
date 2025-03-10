@@ -45,3 +45,8 @@ body {
 .hover\:text-blue-500:hover {
   color: #3b82f6; /* Blue color */
 }
+.hollow-text {
+  -webkit-text-stroke: 2px white;
+  color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Optional shadow */
+}
