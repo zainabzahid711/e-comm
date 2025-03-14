@@ -1,5 +1,8 @@
 // src/firebase/config.ts
 import { initializeApp } from "firebase/app";
+import "firebase/firestore";
+import { getFirestore } from "firebase/firestore/lite";
+
 import { getAnalytics, isSupported } from "firebase/analytics";
 // import { getFirestore } from "firebase/firestore";
 
@@ -16,6 +19,8 @@ export const firebaseConfig = {
 
 // try {
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 //   console.log("Firebase app initialized:", app);
 //   const db = getFirestore(app);
 //   console.log("Firestore initialized:", db);
@@ -32,4 +37,4 @@ if (typeof window !== "undefined") {
   });
 }
 
-export { app, analytics };
+export { app, analytics, db };

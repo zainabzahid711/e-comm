@@ -7,10 +7,10 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore/lite";
-import { app } from "./config"; // Import your Firebase app configuration
+import { db, app } from "./config"; // Import your Firebase app configuration
 
 // Initialize Firestore
-const db = getFirestore(app);
+// const db = getFirestore(app);
 
 // Function to add a product
 export const addProduct = async (product: any) => {
