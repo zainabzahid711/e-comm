@@ -2,6 +2,7 @@ const { initializeApp } = require("firebase/app");
 const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
 const { getFirestore, collection, addDoc } = require("firebase/firestore");
 require("dotenv").config();
+import { db } from "./config";
 
 console.log("API Key:", process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
 const firebaseConfig = {
@@ -16,7 +17,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// const db = getFirestore(app);
 const auth = getAuth();
 
 // Example product data
