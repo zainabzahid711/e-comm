@@ -44,7 +44,7 @@ const NavBar = () => {
 
         {/* Logo */}
         <div className=" text-3xl font-bold">
-          <Link href="/">Aurelia Valor</Link>
+          <Link href="/">MORAYNE</Link>
         </div>
 
         {/* Desktop Navigation */}
