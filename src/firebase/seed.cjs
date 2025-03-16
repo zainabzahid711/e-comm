@@ -1,22 +1,13 @@
 const { initializeApp } = require("firebase/app");
 const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
-const { getFirestore, collection, addDoc } = require("firebase/firestore");
+const { collection, addDoc } = require("firebase/firestore");
 require("dotenv").config();
 import { db } from "./config";
 
 console.log("API Key:", process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
-const firebaseConfig = {
-  apiKey: "AIzaSyCm-0jhXMhZFYa6DVEFtZ28rPGlYgtCuCE",
-  authDomain: "farochron-b8de9.firebaseapp.com",
-  projectId: "farochron-b8de9",
-  storageBucket: "farochron-b8de9.appspot.com",
-  messagingSenderId: "378284856303",
-  appId: "1:378284856303:web:86991ce3edf0e8c0b69c1a",
-  measurementId: "G-F91KWZSNSL",
-};
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// const app = initializeApp(firebaseConfig);
 // const db = getFirestore(app);
 const auth = getAuth();
 

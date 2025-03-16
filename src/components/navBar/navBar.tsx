@@ -1,7 +1,7 @@
-import React, { useState, Suspense, lazy, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../lib/store";
-import { toggleDrawer, setMenuKey } from "../../lib/features/nav/navSlice";
+import { toggleDrawer } from "../../lib/features/nav/navSlice"; // Removed unused `setMenuKey`
 import { logout } from "../../lib/features/auth/authSlice";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
@@ -10,7 +10,6 @@ import MobileNav from "./mobileNav";
 
 const NavBar = () => {
   const dispatch = useDispatch();
-  const { menuKey } = useSelector((state: RootState) => state.nav);
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   );

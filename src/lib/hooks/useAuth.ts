@@ -51,7 +51,7 @@ export const useAuth = () => {
           email,
           password
         );
-        const { displayName, email: userEmail, uid } = userCredential.user;
+        const { displayName, email: userEmail } = userCredential.user;
         const token = await userCredential.user.getIdToken(); // Retrieve the token
 
         dispatch(
@@ -93,7 +93,7 @@ export const useAuth = () => {
         if (name) {
           await updateProfile(userCredential.user, { displayName: name });
         }
-        const { email: userEmail, uid } = userCredential.user;
+        const { email: userEmail } = userCredential.user;
         const token = await userCredential.user.getIdToken(); // Retrieve the token
 
         dispatch(
