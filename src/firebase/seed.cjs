@@ -1,4 +1,4 @@
-const { initializeApp } = require("firebase/app");
+// const { initializeApp } = require("firebase/app");
 const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
 const { collection, addDoc } = require("firebase/firestore");
 require("dotenv").config();
