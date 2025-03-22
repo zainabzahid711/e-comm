@@ -6,6 +6,9 @@ import Head from "next/head";
 export const metadata: Metadata = {
   title: "an e-commerce app",
   description: "shopping",
+  // icons: {
+  //   icon: "/favicon.ico", // Path to your favicon in the public directory
+  // },
 };
 
 export default function RootLayout({
@@ -16,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
+        <link rel="icon" href="/logo.png" type="image/x-icon" />
         <link
           href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap"
           rel="stylesheet"
