@@ -1,6 +1,8 @@
 {
   "hosting": {
-    "public": "out",  
+   "public": ".next/standalone",
+    "cleanUrls": true,
+    "trailingSlash": false,
     "ignore": [
       "firebase.json",
       "**/.*",

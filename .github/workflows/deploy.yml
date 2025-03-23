@@ -30,8 +30,7 @@ jobs:
 
       # Build the project
       - name: Build Project
-        run: |
-          npm run build
+        run: npm run build
 
       # Verify the build output (optional, for debugging)
       - name: Verify Build Output
