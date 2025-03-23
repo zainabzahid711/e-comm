@@ -31,10 +31,12 @@ jobs:
       # Build the project
       - name: Build Project
         run: npm run build
+          npm run export
 
       # Verify the build output (optional, for debugging)
       - name: Verify Build Output
         run: |
+          ls -la 
           if [ ! -d "out" ]; then
             echo " Error: 'out/' directory is missing!"
             exit 1
