@@ -32,7 +32,6 @@ jobs:
       - name: Build Project
         run: |
           npm run build
-          npm run export
 
       # Verify the build output (optional, for debugging)
       - name: Verify Build Output
