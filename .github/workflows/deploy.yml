@@ -34,7 +34,12 @@ jobs:
 
       # Verify the build output (optional, for debugging)
       - name: Verify Build Output
-        run: ls -la out # Ensure the 'out' directory exists
+        run: |
+          if [ ! -d "out" ]; then
+            echo " Error: 'out/' directory is missing!"
+            exit 1
+          fi
+          echo " 'out/' directory found, proceeding with deployment."
 
       # Deploy to Firebase Hosting
       - uses: FirebaseExtended/action-hosting-deploy@v0
@@ -42,3 +47,6 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FAROCHRON_B8DE9 }}
           projectId: farochron-b8de9
+          channelId: live
+          target: farochron-b8de9
+          entryPoint: ./out
