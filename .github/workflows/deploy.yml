@@ -30,7 +30,9 @@ jobs:
 
       # Build the project
       - name: Build Project
-        run: npm run build
+        run: |
+          npm run build
+          npm run export
 
       # Verify the build output (optional, for debugging)
       - name: Verify Build Output
@@ -50,4 +52,4 @@ jobs:
           projectId: farochron-b8de9
           channelId: live
           target: farochron-b8de9
-          entryPoint: ./out
+          entryPoint: .
